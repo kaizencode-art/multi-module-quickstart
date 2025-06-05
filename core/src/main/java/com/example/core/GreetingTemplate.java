@@ -1,4 +1,4 @@
-package com.example;
+package com.example.core;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;

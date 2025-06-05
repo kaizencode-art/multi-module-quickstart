@@ -1,7 +1,8 @@
-package com.example;
+package com.example.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import com.example.core.GreetingTemplate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

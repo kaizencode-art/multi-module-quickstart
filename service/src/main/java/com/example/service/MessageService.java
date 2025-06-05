@@ -1,5 +1,6 @@
-package com.example;
+package com.example.service;
 
+import com.example.core.GreetingTemplate;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import org.jboss.logging.Logger;

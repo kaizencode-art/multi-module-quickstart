@@ -1,5 +1,6 @@
-package com.example;
+package com.example.app;
 
+import com.example.service.MessageService;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
