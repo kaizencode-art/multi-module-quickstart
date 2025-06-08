@@ -5,16 +5,15 @@ This project is a modular Quarkus starter that separates application concerns ac
 ## Project Structure
 
 ```
-├── .mvn/
-├── .vscode/
-├── app/
-├── core/
-├── service/
-├── mvnw
-├── mvnw.cmd
-├── pom.xml
-└── README.md
+multi-module-quickstart/
+├── app/         # Application entrypoint, Quarkus runner
+├── core/        # Domain models, interfaces, pure logic
+├── service/     # Quarkus-aware service implementations
+├── pom.xml      # Parent POM with dependency and plugin management
+├── README.md
+└── LICENSE
 ```
+
 
 ### Module Roles
 
@@ -38,17 +37,55 @@ To declare dependencies in child modules:
 ```
 
 ## Quarkus and Bean Discovery
-
-Quarkus uses build-time bean discovery to optimize startup time. In a multi-module setup, it only indexes beans declared in the main module and its direct dependencies.
-
-To ensure Quarkus discovers beans defined in other modules, add the following to `application.properties` in the `app` module:
-
+Quarkus performs bean discovery at build time to minimize startup cost. In multi-module projects, it only indexes beans from the main module and its direct dependencies.
+There are two supported strategies to ensure Quarkus correctly discovers beans defined in other modules:
+### 1. Configure Indexing in `application.properties`
+In the `app` module, explicitly include additional modules in bean indexing:
 ```properties
 quarkus.index-dependency.service.group-id=com.example
 quarkus.index-dependency.service.artifact-id=service
 ```
+This instructs Quarkus to scan the `service` module for CDI beans.
+### 2. Use the Jandex Maven Plugin
+Alternatively, use the `jandex-maven-plugin` to pre-index classes in modules providing beans.
+In the **parent** `pom.xml`, declare the plugin in `pluginManagement`:
+```xml
+<build>
+  <pluginManagement>
+    <plugins>
+      <plugin>
+        <groupId>io.smallrye</groupId>
+        <artifactId>jandex-maven-plugin</artifactId>
+        <version>${jandex-maven-plugin.version}</version>
+        <executions>
+          <execution>
+            <id>make-index</id>
+            <goals>
+              <goal>jandex</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </pluginManagement>
+</build>
+```
+In any **child module** that declares CDI beans (e.g., `service`), activate the plugin:
+```xml
+<build>
+  <plugins>
+    <plugin>
+      <groupId>io.smallrye</groupId>
+      <artifactId>jandex-maven-plugin</artifactId>
+    </plugin>
+  </plugins>
+</build>
+```
+This setup enables Quarkus to discover and index CDI beans in non-application modules without requiring property declarations.
 
-More details: https://www.baeldung.com/quarkus-bean-discovery-index
+More details: https://www.baeldung.com/quarkus-bean-discovery-index  
+
+Note: `beans.xml` is intentionally omitted, as Quarkus no longer requires it for CDI discovery; relying on it is considered a legacy workaround, not aligned with Quarkus's build-time model.
 
 ## Adding Extensions
 
@@ -87,12 +124,6 @@ Example:
 ```bash
 ./mvnw test -pl service
 ```
-
-## Best Practices
-
-- Keep `core` free from framework dependencies.
-- Use `core` to define service interfaces and `service` to implement them.
-- Keep `app` as thin as possible — only responsible for wiring modules and running the application.
 
 ## Conclusion
 
