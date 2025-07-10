@@ -9,9 +9,9 @@
 
 
     <modules>
-        <module>core</module>
-        <module>service</module>
-        <module>app</module>
+        <module>shared-lib</module>
+        <module>name-service</module>
+        <module>hello-service</module>
     </modules>
 
     <properties>
@@ -54,15 +54,6 @@
     </dependencyManagement>
 
     <dependencies>
-        <!-- quarkus dependencies -->
-        <dependency>
-            <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-logging-json</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-arc</artifactId>
-        </dependency>
         <!-- junit.jupiter -->
         <dependency>
             <groupId>io.quarkus</groupId>

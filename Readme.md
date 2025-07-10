@@ -104,15 +104,15 @@ Example:
 ## Running the Application
 
 ```bash
-./mvnw compile quarkus:dev -pl app
+./mvnw compile quarkus:dev -pl hello
 ```
 
 ```bash
-./mvnw clean package -pl app -am
+./mvnw clean package -pl hello -am
 ```
 
 ```bash
-./mvnw clean install -Dnative -pl app -am
+./mvnw clean install -Dnative -pl hello -am
 ```
 
 ## Testing

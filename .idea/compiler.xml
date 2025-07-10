@@ -6,18 +6,24 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="app" />
-        <module name="core" />
-        <module name="service" />
+        <module name="hello-services" />
+        <module name="shared-lib" />
+        <module name="name-service" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="hello-service" target="21" />
+      <module name="service" target="21" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="app" options="-parameters" />
-      <module name="core" options="-parameters" />
+      <module name="hello-service" options="-parameters" />
+      <module name="hello-services" options="-parameters" />
       <module name="multi-module-quickstart" options="-parameters" />
+      <module name="name-service" options="-parameters" />
       <module name="service" options="-parameters" />
+      <module name="shared-lib" options="-parameters" />
     </option>
   </component>
 </project>
